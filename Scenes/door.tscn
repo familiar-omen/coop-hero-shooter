@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://cg6v4v6gnbabk"]
+
+[ext_resource type="Material" uid="uid://dj83e8hta6ltu" path="res://Materials/floor.tres" id="1_p0e35"]
+[ext_resource type="Script" uid="uid://cu6ho8i5s2wc7" path="res://CustomNodes/two_state_motion.gd" id="1_w6aom"]
+[ext_resource type="Material" uid="uid://dp6povlw1yeqo" path="res://Materials/robot_metal.tres" id="2_fahql"]
+
+[node name="Door" type="Node3D" unique_id=1970948140]
+
+[node name="Wall" type="CSGCombiner3D" parent="." unique_id=1920017847]
+use_collision = true
+collision_layer = 3
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Wall" unique_id=596786974]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_override = ExtResource("1_p0e35")
+size = Vector3(5, 4, 1)
+material = ExtResource("1_p0e35")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Wall" unique_id=300661006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+operation = 2
+size = Vector3(3, 3.5, 1)
+
+[node name="Door" type="CSGCombiner3D" parent="." unique_id=299701266]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+use_collision = true
+collision_layer = 3
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Door" unique_id=1551900784]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 1.55)
+size = Vector3(3, 3.1000001, 0.4)
+material = ExtResource("2_fahql")
+
+[node name="TwoStateMotion" type="Node" parent="." unique_id=760325651 node_paths=PackedStringArray("visual")]
+script = ExtResource("1_w6aom")
+visual = NodePath("../Door")
+inset = 3.0
+duration = 1.0

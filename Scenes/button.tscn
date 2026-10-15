@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bfbngeny3gjea"]
+
+[ext_resource type="Script" uid="uid://0my1sptjrfgs" path="res://CustomNodes/interactable.gd" id="1_1cmwl"]
+[ext_resource type="Script" uid="uid://cu6ho8i5s2wc7" path="res://CustomNodes/two_state_motion.gd" id="2_0kpiu"]
+[ext_resource type="Script" uid="uid://du5q5gojpeft2" path="res://CustomNodes/transmit.gd" id="3_smycg"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p4iht"]
+size = Vector3(0.6, 1, 0.4)
+
+[node name="Button" type="Node3D" unique_id=1681115327]
+
+[node name="Box_visuals" type="CSGCombiner3D" parent="." unique_id=796760709]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Box_visuals" unique_id=70479466]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9604645e-08, 0, 0.15)
+size = Vector3(0.6, 1, 0.3)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Box_visuals" unique_id=1811658713]
+transform = Transform3D(0.9659258, -1.131334e-08, -0.25881904, -0.25881904, -4.222196e-08, -0.9659258, 0, 1, -4.371139e-08, 0, -1.1348047e-08, 0.25961304)
+operation = 2
+radius = 0.2602539
+height = 0.24993896
+sides = 12
+
+[node name="Button_visuals" type="CSGCombiner3D" parent="." unique_id=1073033150]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.16486311)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Button_visuals" unique_id=448772544]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+radius = 0.2
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Button_visuals" unique_id=2086160391]
+operation = 2
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Button_visuals" unique_id=1767998161]
+transform = Transform3D(0.9659258, -1.131334e-08, -0.25881904, -0.25881904, -4.222196e-08, -0.9659258, 0, 1, -4.371139e-08, -1.6278807e-10, -1.19555805e-08, 0.44857398)
+radius = 0.13916016
+height = 0.22116089
+sides = 12
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=489112823]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=412486262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+shape = SubResource("BoxShape3D_p4iht")
+
+[node name="PushButton" type="Node" parent="StaticBody3D" unique_id=918420743]
+script = ExtResource("1_1cmwl")
+togglable = true
+
+[node name="TwoStateMotion" type="Node" parent="StaticBody3D" unique_id=923421959 node_paths=PackedStringArray("visual")]
+script = ExtResource("2_0kpiu")
+visual = NodePath("../../Button_visuals")
+inset = 0.2
+duration = 0.1
+metadata/_custom_type_script = "uid://cu6ho8i5s2wc7"
+
+[node name="Transmit" type="Node" parent="StaticBody3D" unique_id=768153004 node_paths=PackedStringArray("target")]
+script = ExtResource("3_smycg")
+target = NodePath("../..")
+metadata/_custom_type_script = "uid://du5q5gojpeft2"

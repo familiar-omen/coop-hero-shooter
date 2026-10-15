@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://d4cg6pad3o2cw"]
+
+[ext_resource type="Script" uid="uid://c20pug8bhhlix" path="res://CustomNodes/hud.gd" id="1_e0onf"]
+
+[node name="HUD" type="Control" unique_id=1979797674]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e0onf")
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=438901480]
+custom_minimum_size = Vector2(82.29, 0)
+layout_mode = 0
+offset_left = 27.0
+offset_top = 597.0
+offset_right = 261.0
+offset_bottom = 624.0

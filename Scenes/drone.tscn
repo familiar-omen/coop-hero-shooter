@@ -1,0 +1,402 @@
+[gd_scene format=3 uid="uid://bihdn2nuiw1j"]
+
+[ext_resource type="Material" uid="uid://d01xdx4bxtpif" path="res://Materials/robot_mat2.tres" id="1_4fxa4"]
+[ext_resource type="Script" uid="uid://dtwmk46wawo8j" path="res://CustomNodes/controllers/AI/chase_player_controller.gd" id="1_4slyf"]
+[ext_resource type="Script" uid="uid://bllw5fspy7d1n" path="res://CustomNodes/look.gd" id="2_5ia6i"]
+[ext_resource type="Material" uid="uid://cxwh5j5inbyk2" path="res://Materials/robot_eye.tres" id="2_hslf5"]
+[ext_resource type="Script" uid="uid://cuxmjcpmir18s" path="res://CustomNodes/controllers/AI/startle.gd" id="3_4fxa4"]
+[ext_resource type="Script" uid="uid://du8g21bisr8pi" path="res://CustomNodes/selectable.gd" id="3_xx3wb"]
+[ext_resource type="Script" uid="uid://csd1t3534j2os" path="res://CustomNodes/movement.gd" id="4_j0wq0"]
+[ext_resource type="Script" uid="uid://w2m2oi6xo1ro" path="res://CustomNodes/health.gd" id="5_hslf5"]
+[ext_resource type="Script" uid="uid://bdftv221hk27n" path="res://CustomNodes/can_die.gd" id="6_u2tw5"]
+[ext_resource type="Script" uid="uid://ch8gkvomsvffy" path="res://CustomNodes/vision.gd" id="7_5ia6i"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_p4iht"]
+points = PackedVector3Array(0, 0, 0, 10, 10, -10, 10, -10, -10, -10, 10, -10, -10, -10, -10, 0, 0, -15)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uof5o"]
+radius = 0.39526367
+height = 0.79052734
+
+[node name="Drone" type="CharacterBody3D" unique_id=434947669]
+collision_layer = 9
+
+[node name="CenterOfMass" type="Marker3D" parent="." unique_id=1275758340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30679065, 0)
+
+[node name="Neck" type="Node3D" parent="." unique_id=576510746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.34659523, -0.22273579)
+
+[node name="Eyes" type="Area3D" parent="Neck" unique_id=1240988772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.9604645e-08, 0)
+collision_layer = 0
+collision_mask = 4
+
+[node name="VisionCone" type="CollisionShape3D" parent="Neck/Eyes" unique_id=1290578403]
+shape = SubResource("ConvexPolygonShape3D_p4iht")
+debug_color = Color(0.8509804, 0.37254903, 0, 0.62352943)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Neck" unique_id=855149622]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04474026, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.8
+light_indirect_energy = 0.0
+light_specular = 0.0
+shadow_enabled = true
+spot_range = 15.0
+spot_attenuation = -2.0
+spot_angle_attenuation = 0.029157264
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Neck" unique_id=1281827586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04474026, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.8
+light_indirect_energy = 0.0
+light_specular = 0.0
+shadow_enabled = true
+spot_range = 1.8
+spot_angle_attenuation = 0.029157264
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Neck" unique_id=914525244]
+visible = false
+light_color = Color(1, 0, 0, 1)
+light_energy = 2.084
+light_indirect_energy = 0.0
+light_specular = 0.0
+spot_range = 15.0
+spot_attenuation = -2.0
+spot_angle_attenuation = 0.029157264
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Neck" unique_id=1701254546]
+visible = false
+light_color = Color(1, 0, 0, 1)
+light_energy = 2.084
+light_indirect_energy = 0.0
+light_negative = true
+light_specular = 0.0
+spot_range = 14.9
+spot_attenuation = -2.0
+spot_angle_attenuation = 0.1593202
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1015822129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39526367, 0)
+shape = SubResource("CapsuleShape3D_uof5o")
+debug_color = Color(0.9866846, 0, 0.31610015, 0.8039216)
+
+[node name="Visuals" type="CSGCombiner3D" parent="." unique_id=1975824710]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21636271, 0)
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Visuals" unique_id=1268602885]
+transform = Transform3D(1, 0, 0, 0, -1, -8.742278e-08, 0, 8.742278e-08, -1, 0, 0.35, 0)
+radius = 0.3
+height = 0.1
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals" unique_id=1704423356]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49999994, 0)
+radius = 0.3
+height = 0.2
+sides = 12
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals" unique_id=431176785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+radius = 0.3
+height = 0.1
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="EyeSocket" type="CSGPolygon3D" parent="Visuals" unique_id=906085016]
+transform = Transform3D(-1, 8.742278e-08, 0, -6.181724e-08, -0.70710677, -0.7071069, -6.181724e-08, -0.70710677, 0.7071069, -1.0994574e-08, 0.64125913, -0.16340305)
+operation = 2
+polygon = PackedVector2Array(-0.15, 0, 0, 0.212, 0.15, 0)
+depth = 0.09
+material = ExtResource("1_4fxa4")
+
+[node name="Eye" type="CSGPolygon3D" parent="Visuals" unique_id=23285362]
+transform = Transform3D(-0.8, 1.2079664e-07, 0, -8.541612e-08, -0.5656854, -0.56568545, -8.541613e-08, -0.56568545, 0.5656854, -8.94153e-09, 0.6113278, -0.15270036)
+polygon = PackedVector2Array(-0.15, 0, 0, 0.212, 0.15, 0)
+depth = 0.05
+material = ExtResource("2_hslf5")
+
+[node name="Leg" type="CSGCombiner3D" parent="Visuals" unique_id=542655129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.4, 0)
+
+[node name="BaseJoint2" type="CSGSphere3D" parent="Visuals/Leg" unique_id=725231922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18713, 0.120333165, 0)
+radius = 0.06
+material = ExtResource("1_4fxa4")
+
+[node name="BaseJoint" type="CSGSphere3D" parent="Visuals/Leg" unique_id=1016133800]
+radius = 0.1
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals/Leg" unique_id=1860580959]
+transform = Transform3D(0.52807057, -0.8492005, 0, 0.8492005, 0.52807057, 0, 0, 0, 1, -0.2045894, 0.12722276, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg/CSGCylinder3D" unique_id=981878516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17236334, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals/Leg" unique_id=919304443]
+transform = Transform3D(-0.97512233, -0.22166729, 0, 0.22166729, -0.97512233, 0, 0, 0, 1, -0.23052457, -0.082677245, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg/CSGCylinder3D2" unique_id=2074955929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2782515, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="Leg2" type="CSGCombiner3D" parent="Visuals" unique_id=1051584515]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -0.23111764, 0.4, -0.19117084)
+
+[node name="BaseJoint2" type="CSGSphere3D" parent="Visuals/Leg2" unique_id=1219536242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18713, 0.120333165, 0)
+radius = 0.06
+material = ExtResource("1_4fxa4")
+
+[node name="BaseJoint" type="CSGSphere3D" parent="Visuals/Leg2" unique_id=421320287]
+radius = 0.1
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals/Leg2" unique_id=1701309107]
+transform = Transform3D(0.52807057, -0.8492005, 0, 0.8492005, 0.52807057, 0, 0, 0, 1, -0.2045894, 0.12722276, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg2/CSGCylinder3D" unique_id=918610853]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17236334, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals/Leg2" unique_id=678598987]
+transform = Transform3D(-0.97512233, -0.22166729, 0, 0.22166729, -0.97512233, 0, 0, 0, 1, -0.23052457, -0.082677245, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg2/CSGCylinder3D2" unique_id=1179864740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2782515, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="Leg3" type="CSGCombiner3D" parent="Visuals" unique_id=1443533379]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, -0.23888999, 0.4, 0.1956582)
+
+[node name="BaseJoint2" type="CSGSphere3D" parent="Visuals/Leg3" unique_id=2067080412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18713, 0.120333165, 0)
+radius = 0.06
+material = ExtResource("1_4fxa4")
+
+[node name="BaseJoint" type="CSGSphere3D" parent="Visuals/Leg3" unique_id=1974524969]
+radius = 0.1
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals/Leg3" unique_id=1873567012]
+transform = Transform3D(0.52807057, -0.8492005, 0, 0.8492005, 0.52807057, 0, 0, 0, 1, -0.2045894, 0.12722276, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg3/CSGCylinder3D" unique_id=419757019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17236334, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals/Leg3" unique_id=1183229539]
+transform = Transform3D(-0.97512233, -0.22166729, 0, 0.22166729, -0.97512233, 0, 0, 0, 1, -0.23052457, -0.082677245, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg3/CSGCylinder3D2" unique_id=1119291741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2782515, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="Leg4" type="CSGCombiner3D" parent="Visuals" unique_id=358241162]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.3, 0.4, 0)
+
+[node name="BaseJoint2" type="CSGSphere3D" parent="Visuals/Leg4" unique_id=526966932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18713, 0.120333165, 0)
+radius = 0.06
+material = ExtResource("1_4fxa4")
+
+[node name="BaseJoint" type="CSGSphere3D" parent="Visuals/Leg4" unique_id=576252468]
+radius = 0.1
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals/Leg4" unique_id=367655856]
+transform = Transform3D(0.52807057, -0.8492005, 0, 0.8492005, 0.52807057, 0, 0, 0, 1, -0.2045894, 0.12722276, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg4/CSGCylinder3D" unique_id=625222064]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17236334, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals/Leg4" unique_id=498291897]
+transform = Transform3D(-0.97512233, -0.22166729, 0, 0.22166729, -0.97512233, 0, 0, 0, 1, -0.23052457, -0.082677245, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg4/CSGCylinder3D2" unique_id=2116655726]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2782515, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="Leg5" type="CSGCombiner3D" parent="Visuals" unique_id=1136843298]
+transform = Transform3D(-0.8660255, 0, -0.5, 0, 1, 0, 0.5, 0, -0.8660255, 0.2175872, 0.4, -0.19117084)
+
+[node name="BaseJoint2" type="CSGSphere3D" parent="Visuals/Leg5" unique_id=95643079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18713, 0.120333165, 0)
+radius = 0.06
+material = ExtResource("1_4fxa4")
+
+[node name="BaseJoint" type="CSGSphere3D" parent="Visuals/Leg5" unique_id=1028377119]
+radius = 0.1
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals/Leg5" unique_id=1088936919]
+transform = Transform3D(0.52807057, -0.8492005, 0, 0.8492005, 0.52807057, 0, 0, 0, 1, -0.2045894, 0.12722276, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg5/CSGCylinder3D" unique_id=546867473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17236334, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals/Leg5" unique_id=1538057288]
+transform = Transform3D(-0.97512233, -0.22166729, 0, 0.22166729, -0.97512233, 0, 0, 0, 1, -0.23052457, -0.082677245, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg5/CSGCylinder3D2" unique_id=201277294]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2782515, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="Leg6" type="CSGCombiner3D" parent="Visuals" unique_id=1513453731]
+transform = Transform3D(-0.8660253, 0, 0.5000001, 0, 1, 0, -0.5000001, 0, -0.8660253, 0.20981485, 0.4, 0.1956582)
+
+[node name="BaseJoint2" type="CSGSphere3D" parent="Visuals/Leg6" unique_id=264069816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18713, 0.120333165, 0)
+radius = 0.06
+material = ExtResource("1_4fxa4")
+
+[node name="BaseJoint" type="CSGSphere3D" parent="Visuals/Leg6" unique_id=901729766]
+radius = 0.1
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Visuals/Leg6" unique_id=733186111]
+transform = Transform3D(0.52807057, -0.8492005, 0, 0.8492005, 0.52807057, 0, 0, 0, 1, -0.2045894, 0.12722276, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg6/CSGCylinder3D" unique_id=2743366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17236334, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Visuals/Leg6" unique_id=1020799422]
+transform = Transform3D(-0.97512233, -0.22166729, 0, 0.22166729, -0.97512233, 0, 0, 0, 1, -0.23052457, -0.082677245, 0)
+radius = 0.05
+height = 0.4
+sides = 12
+cone = true
+material = ExtResource("1_4fxa4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Visuals/Leg6/CSGCylinder3D2" unique_id=478936518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2782515, 0)
+operation = 2
+size = Vector3(0.2, 0.345, 0.2)
+material = ExtResource("1_4fxa4")
+
+[node name="StartleController" type="Node" parent="." unique_id=1027159817]
+script = ExtResource("3_4fxa4")
+metadata/_custom_type_script = "uid://cuxmjcpmir18s"
+
+[node name="ChasePlayerController" type="Node" parent="." unique_id=1502915531]
+script = ExtResource("1_4slyf")
+metadata/_custom_type_script = "uid://dtwmk46wawo8j"
+
+[node name="Look" type="Node" parent="." unique_id=1721859558 node_paths=PackedStringArray("horizontal_hinge", "vertical_hinge")]
+script = ExtResource("2_5ia6i")
+horizontal_hinge = NodePath("..")
+vertical_hinge = NodePath("../Neck")
+metadata/_custom_type_script = "uid://bllw5fspy7d1n"
+
+[node name="Selectable" type="Node" parent="." unique_id=579536975]
+script = ExtResource("3_xx3wb")
+selection_type = "enemy"
+metadata/_custom_type_script = "uid://du8g21bisr8pi"
+
+[node name="Movement" type="Node" parent="." unique_id=469073937 node_paths=PackedStringArray("body")]
+script = ExtResource("4_j0wq0")
+body = NodePath("..")
+speed = 3.0
+metadata/_custom_type_script = "uid://csd1t3534j2os"
+
+[node name="Health" type="Node" parent="." unique_id=600767126]
+script = ExtResource("5_hslf5")
+maximum = 10.0
+metadata/_custom_type_script = "uid://w2m2oi6xo1ro"
+
+[node name="Death" type="Node" parent="." unique_id=2077476690]
+script = ExtResource("6_u2tw5")
+metadata/_custom_type_script = "uid://bdftv221hk27n"
+
+[node name="Vision" type="Node" parent="." unique_id=2014788379 node_paths=PackedStringArray("cone")]
+script = ExtResource("7_5ia6i")
+cone = NodePath("../Neck/Eyes")
+metadata/_custom_type_script = "uid://ch8gkvomsvffy"

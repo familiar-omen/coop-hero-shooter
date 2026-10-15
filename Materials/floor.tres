@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dj83e8hta6ltu"]
+
+[sub_resource type="Gradient" id="Gradient_wv6ex"]
+offsets = PackedFloat32Array(0.9159093, 0.9462123)
+colors = PackedColorArray(0.7408543, 0.7408543, 0.7408543, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xw8fe"]
+gradient = SubResource("Gradient_wv6ex")
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+
+[resource]
+albedo_texture = SubResource("GradientTexture2D_xw8fe")
+uv1_triplanar = true
+uv1_world_triplanar = true
+distance_fade_min_distance = 20.0

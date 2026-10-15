@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://bit7ibj3r067l"]
+
+[ext_resource type="AudioStream" uid="uid://bkls3gnxlpuxi" path="res://freesound_community-laser-weld-103309.mp3" id="1_7dp3o"]
+[ext_resource type="Script" uid="uid://ivfpg33u6vgu" path="res://CustomNodes/controllers/player_controller.gd" id="1_x3wgy"]
+[ext_resource type="Script" uid="uid://bllw5fspy7d1n" path="res://CustomNodes/look.gd" id="2_3smsa"]
+[ext_resource type="PackedScene" uid="uid://d4cg6pad3o2cw" path="res://Scenes/hud.tscn" id="2_gymyn"]
+[ext_resource type="Script" uid="uid://du8g21bisr8pi" path="res://CustomNodes/selectable.gd" id="3_8erm5"]
+[ext_resource type="Script" uid="uid://csd1t3534j2os" path="res://CustomNodes/movement.gd" id="4_f1ek2"]
+[ext_resource type="Script" uid="uid://cstyaiqtkjt88" path="res://CustomNodes/selection.gd" id="5_tx1dd"]
+[ext_resource type="Script" uid="uid://c8yagl5b2qxa" path="res://CustomNodes/ray_gun.gd" id="6_gymyn"]
+[ext_resource type="Script" uid="uid://bosrp2w3e3r5y" path="res://CustomNodes/lockon_missile.gd" id="7_3smsa"]
+[ext_resource type="PackedScene" uid="uid://vda3a8w1hdsf" path="res://Scenes/missile.tscn" id="8_8erm5"]
+[ext_resource type="PackedScene" uid="uid://btcogoplyr4iq" path="res://External/GodotBeamVFXFree/assets/BinbunVFX/beam_vfx/effects/base/base_beam_vfx.tscn" id="8_h4iuc"]
+[ext_resource type="Script" uid="uid://ch8gkvomsvffy" path="res://CustomNodes/vision.gd" id="9_f1ek2"]
+[ext_resource type="PackedScene" uid="uid://bfhkdilfjfntj" path="res://Scenes/target_lock.tscn" id="9_tx1dd"]
+[ext_resource type="Script" uid="uid://ycro0jmdjmof" path="res://CustomNodes/punch.gd" id="13_7dp3o"]
+[ext_resource type="Script" uid="uid://w2m2oi6xo1ro" path="res://CustomNodes/health.gd" id="13_ukyrk"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8erm5"]
+points = PackedVector3Array(0, 0, 0, 20, 20, -20, 20, -20, -20, -20, 20, -20, -20, -10, -20, 10, 10, -30, 10, -10, -30, -10, 10, -30, -10, -10, -30)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wqftc"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1533141946]
+collision_layer = 5
+
+[node name="Neck" type="Node3D" parent="." unique_id=1075843239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Neck" unique_id=2144661586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6)
+stream = ExtResource("1_7dp3o")
+attenuation_model = 3
+volume_db = -12.0
+max_distance = 30.0
+
+[node name="Hand" type="Marker3D" parent="Neck" unique_id=1918602163]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41247475, -0.1583569, -0.6)
+
+[node name="RayCast3D" type="RayCast3D" parent="Neck" unique_id=1340142305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20000005, 0)
+target_position = Vector3(0, 0, -10)
+debug_shape_custom_color = Color(0, 0, 0, 0)
+
+[node name="Eye" type="Marker3D" parent="Neck" unique_id=1763559952]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="Sight" type="Area3D" parent="Neck/Eye" unique_id=470993588]
+collision_layer = 0
+collision_mask = 8
+
+[node name="VisionCone" type="CollisionShape3D" parent="Neck/Eye/Sight" unique_id=1623980953]
+shape = SubResource("ConvexPolygonShape3D_8erm5")
+debug_color = Color(0, 0.6392157, 0.34901962, 0)
+debug_fill = false
+
+[node name="Camera3D" type="Camera3D" parent="Neck/Eye" unique_id=1255160265]
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Neck/Eye" unique_id=1606674200]
+
+[node name="CenterOfMass" type="Marker3D" parent="." unique_id=1624904171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=191367090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_wqftc")
+debug_color = Color(0.095536985, 0.5947841, 0.7162549, 0.8039216)
+
+[node name="PlayerController" type="Node" parent="." unique_id=702501499]
+script = ExtResource("1_x3wgy")
+sensitivity = Vector2(0.01, 0.01)
+metadata/_custom_type_script = "uid://ivfpg33u6vgu"
+
+[node name="Look" type="Node" parent="." unique_id=2057152069 node_paths=PackedStringArray("horizontal_hinge", "vertical_hinge")]
+script = ExtResource("2_3smsa")
+horizontal_hinge = NodePath("..")
+vertical_hinge = NodePath("../Neck")
+metadata/_custom_type_script = "uid://bllw5fspy7d1n"
+
+[node name="Selectable" type="Node" parent="." unique_id=1182812236]
+script = ExtResource("3_8erm5")
+selection_type = "ally"
+metadata/_custom_type_script = "uid://du8g21bisr8pi"
+
+[node name="Movement" type="Node" parent="." unique_id=1550212966 node_paths=PackedStringArray("body")]
+script = ExtResource("4_f1ek2")
+body = NodePath("..")
+metadata/_custom_type_script = "uid://csd1t3534j2os"
+
+[node name="Weapons" type="Node" parent="." unique_id=2110129822]
+script = ExtResource("5_tx1dd")
+metadata/_custom_type_script = "uid://cstyaiqtkjt88"
+
+[node name="RayGun" type="Node" parent="Weapons" unique_id=108670392 node_paths=PackedStringArray("raycast", "source")]
+script = ExtResource("6_gymyn")
+raycast = NodePath("../../Neck/RayCast3D")
+damage = 0.2
+source = NodePath("../../Neck/Hand")
+beam = ExtResource("8_h4iuc")
+metadata/_custom_type_script = "uid://c8yagl5b2qxa"
+
+[node name="LockonMissile" type="Node" parent="Weapons" unique_id=1320984777 node_paths=PackedStringArray("raycast", "source")]
+script = ExtResource("7_3smsa")
+raycast = NodePath("../../Neck/RayCast3D")
+damage = 2.0
+lock_time = 0.4
+missile = ExtResource("8_8erm5")
+lock_visual = ExtResource("9_tx1dd")
+source = NodePath("../../Neck/Hand")
+metadata/_custom_type_script = "uid://bosrp2w3e3r5y"
+
+[node name="Vision" type="Node" parent="." unique_id=1102776201 node_paths=PackedStringArray("cone")]
+script = ExtResource("9_f1ek2")
+cone = NodePath("../Neck/Eye/Sight")
+metadata/_custom_type_script = "uid://ch8gkvomsvffy"
+
+[node name="HUD" parent="." unique_id=1979797674 instance=ExtResource("2_gymyn")]
+
+[node name="Health" type="Node" parent="." unique_id=991481969]
+script = ExtResource("13_ukyrk")
+maximum = 100.0
+metadata/_custom_type_script = "uid://w2m2oi6xo1ro"
+
+[node name="Punch" type="Node" parent="." unique_id=1276950957 node_paths=PackedStringArray("source")]
+script = ExtResource("13_7dp3o")
+source = NodePath("../Neck/Eye")
+distance = 2.675

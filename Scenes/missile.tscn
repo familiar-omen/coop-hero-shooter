@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://vda3a8w1hdsf"]
+
+[ext_resource type="PackedScene" uid="uid://bbrua2kwcecpu" path="res://External/MagicProjectilesVFX/assets/BinbunVFX/magic_projectiles/effects/mprojectile_javelin/mprojectile_javelin_vfx_02.tscn" id="1_5epdn"]
+[ext_resource type="Script" uid="uid://b325ad8t3bvsh" path="res://CustomNodes/chase.gd" id="1_bkb3y"]
+[ext_resource type="Script" uid="uid://bdftv221hk27n" path="res://CustomNodes/can_die.gd" id="2_bkb3y"]
+[ext_resource type="Shader" uid="uid://cnayk0734c0af" path="res://External/MagicProjectilesVFX/assets/BinbunVFX/shared/shader/opaque.gdshader" id="4_5epdn"]
+[ext_resource type="AudioStream" uid="uid://c4gdf2dmlt710" path="res://driken5482-space-slash-236689.mp3" id="5_d3kn2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d3kn2"]
+render_priority = 0
+shader = ExtResource("4_5epdn")
+shader_parameter/mask1_scroll = Vector2(0, 0)
+shader_parameter/mask1_scale = Vector2(1, 1)
+shader_parameter/mask1_radial = false
+shader_parameter/use_mask2 = false
+shader_parameter/mask2_scroll = Vector2(0, 0)
+shader_parameter/mask2_scale = Vector2(1, 1)
+shader_parameter/mask2_strength = 0.0
+shader_parameter/mask2_blend_mode = 0
+shader_parameter/mask2_radial = false
+shader_parameter/use_mask3 = false
+shader_parameter/mask3_scroll = Vector2(0, 0)
+shader_parameter/mask3_scale = Vector2(1, 1)
+shader_parameter/mask3_strength = 0.0
+shader_parameter/mask3_blend_mode = 0
+shader_parameter/mask3_radial = false
+shader_parameter/primary_color = Color(3.9339056, 3.9339056, 3.9339056, 1)
+shader_parameter/secondary_color = Color(0, 0, 0, 1)
+shader_parameter/tertiary_color = Color(0, 0, 0, 1)
+shader_parameter/use_tertiary = false
+shader_parameter/color_smoothness = 0.5
+shader_parameter/billboard = false
+shader_parameter/displacement_scale = 0.0
+shader_parameter/displacement_offset = 0.5
+shader_parameter/time_scale = 1.0
+shader_parameter/texture_scale = Vector2(1, 1)
+shader_parameter/uv_alignment = 0
+shader_parameter/emission_strength = 1.0
+shader_parameter/proximity_fade = false
+shader_parameter/proximity_fade_distance = 1.0
+shader_parameter/alpha_multiplier = 0.954
+shader_parameter/alpha_mode = 0
+shader_parameter/alpha_cutoff = 0.05
+shader_parameter/dither_cutoff = 0.8
+
+[sub_resource type="SphereMesh" id="SphereMesh_p4iht"]
+material = SubResource("ShaderMaterial_d3kn2")
+radius = 0.05
+height = 0.1
+
+[node name="missile" type="Node3D" unique_id=613326069]
+
+[node name="MProjectileJavelinVFX_02" parent="." unique_id=903105681 instance=ExtResource("1_5epdn")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -5.710125e-05, 0.0054060817, -0.0012366772)
+
+[node name="SimpleChase" type="Node" parent="." unique_id=173343543]
+script = ExtResource("1_bkb3y")
+speed = 20.0
+metadata/_custom_type_script = "uid://b325ad8t3bvsh"
+
+[node name="Death" type="Node" parent="." unique_id=1924659888]
+script = ExtResource("2_bkb3y")
+metadata/_custom_type_script = "uid://bdftv221hk27n"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=296674017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.053293705)
+mesh = SubResource("SphereMesh_p4iht")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1414169699]
+stream = ExtResource("5_d3kn2")
+volume_db = -15.0
+autoplay = true
+max_distance = 10.0
+doppler_tracking = 2

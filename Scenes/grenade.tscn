@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bf4cqpooo73vi"]
+
+[ext_resource type="Material" uid="uid://dp6povlw1yeqo" path="res://Materials/robot_metal.tres" id="1_5rnft"]
+[ext_resource type="Script" uid="uid://c3ltlhk4l2qxd" path="res://CustomNodes/splitable.gd" id="1_v44n1"]
+[ext_resource type="Script" uid="uid://bdftv221hk27n" path="res://CustomNodes/can_die.gd" id="3_ft0g1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p4iht"]
+radius = 0.21857734
+
+[node name="RigidBody3D" type="RigidBody3D" unique_id=504388842]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1208186903]
+shape = SubResource("SphereShape3D_p4iht")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=409369764]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="CSGCombiner3D" unique_id=1891971905]
+radius = 0.18272816
+material = ExtResource("1_5rnft")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D" unique_id=800179932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15664291, 0)
+radius = 0.107910156
+height = 0.146492
+material = ExtResource("1_5rnft")
+
+[node name="CSGTorus3D" type="CSGTorus3D" parent="CSGCombiner3D" unique_id=1160576000]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.14367789, 0.20403233, 0)
+inner_radius = 0.04490413
+outer_radius = 0.06638493
+material = ExtResource("1_5rnft")
+
+[node name="Splitable" type="Node" parent="." unique_id=1719370455 node_paths=PackedStringArray("mesh_holder")]
+script = ExtResource("1_v44n1")
+mesh_holder = NodePath("../CSGCombiner3D")
+
+[node name="Death" type="Node" parent="." unique_id=2050220016]
+script = ExtResource("3_ft0g1")
+metadata/_custom_type_script = "uid://bdftv221hk27n"

@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://d01xdx4bxtpif"]
+
+[ext_resource type="Shader" uid="uid://uf8fmag8202x" path="res://External/SourceCode/UltimateToonSource/shader/stylized.gdshader" id="1_ix24n"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ix24n")
+shader_parameter/albedo_color = Color(0.3647059, 0.6117647, 0.5254902, 1)
+shader_parameter/albedo_affect = 0.0
+shader_parameter/use_stepped = true
+shader_parameter/steps = 2.5
+shader_parameter/step_smoothness = 1.0
+shader_parameter/shadow_tint = Color(0.25592604, 0, 0.5112536, 1)
+shader_parameter/shadow_tint_amount = 0.4
+shader_parameter/specular = 0.0
+shader_parameter/normal_strength = 0.0
+shader_parameter/use_rim = false
+shader_parameter/rim_color = Color(1, 0, 0, 1)
+shader_parameter/rim_amount = 2.41
+shader_parameter/rim_smoothness = 0.2
+shader_parameter/rim_mask_shadow = 0.0
+shader_parameter/rim_blend = 1.0
+shader_parameter/use_pattern = false
+shader_parameter/pattern_uv_mode = 2
+shader_parameter/pattern_tiling = 32.0
+shader_parameter/pattern_amount = 0.5
+shader_parameter/pattern_smoothness = 0.5
+shader_parameter/pattern_blend = 0.2

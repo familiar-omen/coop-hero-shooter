@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://crrmn772xn3io"]
+
+[ext_resource type="Script" uid="uid://bllw5fspy7d1n" path="res://CustomNodes/look.gd" id="1_375tr"]
+[ext_resource type="Script" uid="uid://ch8gkvomsvffy" path="res://CustomNodes/vision.gd" id="2_f1cf7"]
+[ext_resource type="Script" uid="uid://haku7ioubx4r" path="res://CustomNodes/shoot.gd" id="4_x3vey"]
+[ext_resource type="Script" uid="uid://dtwmk46wawo8j" path="res://CustomNodes/controllers/AI/chase_player_controller.gd" id="4_xfji6"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_mhsga"]
+points = PackedVector3Array(0, 0, 0, 10, 10, -10, 10, -10, -10, -10, 10, -10, -10, -10, -10, 0, 0, -15)
+
+[node name="Camera" type="Node3D" unique_id=1042725022]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="." unique_id=1826801766]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D" unique_id=1517812949]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0.105392754, 0.105392754)
+radius = 0.056152344
+height = 0.2902832
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="CSGCombiner3D" unique_id=1156721471]
+radius = 0.1
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="CSGCombiner3D" unique_id=883869041]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21666396, 0.21892609)
+radius = 0.08179544
+
+[node name="Horizontal" type="Node3D" parent="." unique_id=497309115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2151508, 0.22048454)
+
+[node name="Vertical" type="Node3D" parent="Horizontal" unique_id=545424380]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="Horizontal/Vertical" unique_id=914957807]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Horizontal/Vertical/CSGCombiner3D" unique_id=1210464628]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.121560544, 0.08296077)
+size = Vector3(0.2, 0.18956885, 0.3935117)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Horizontal/Vertical/CSGCombiner3D" unique_id=635791977]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.1164282, 0.22132112)
+radius = 0.067871094
+height = 0.19630432
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Horizontal/Vertical/CSGCombiner3D" unique_id=1193329977]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.07061571, 0.06108898, 0.20887758)
+radius = 0.015136719
+height = 0.17141724
+
+[node name="Area3D" type="Area3D" parent="Horizontal/Vertical" unique_id=1869851641]
+
+[node name="VisionCone" type="CollisionShape3D" parent="Horizontal/Vertical/Area3D" unique_id=985201692]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0.123725235, 0.275581)
+shape = SubResource("ConvexPolygonShape3D_mhsga")
+debug_color = Color(0.8509804, 0.37254903, 0, 0.62352943)
+
+[node name="Look" type="Node" parent="." unique_id=2112660367 node_paths=PackedStringArray("horizontal_hinge", "vertical_hinge")]
+script = ExtResource("1_375tr")
+horizontal_hinge = NodePath("../Horizontal")
+vertical_hinge = NodePath("../Horizontal/Vertical")
+metadata/_custom_type_script = "uid://bllw5fspy7d1n"
+
+[node name="Vision" type="Node" parent="." unique_id=457473798 node_paths=PackedStringArray("cone")]
+script = ExtResource("2_f1cf7")
+cone = NodePath("../Horizontal/Vertical/Area3D")
+metadata/_custom_type_script = "uid://ch8gkvomsvffy"
+
+[node name="Shoot" type="Node" parent="." unique_id=187742818]
+script = ExtResource("4_x3vey")
+
+[node name="LookAtPlayerController" type="Node" parent="." unique_id=662262647]
+script = ExtResource("4_xfji6")
+metadata/_custom_type_script = "uid://dtwmk46wawo8j"
